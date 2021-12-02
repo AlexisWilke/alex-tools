@@ -1,0 +1,58 @@
+Source: panel-ve
+Priority: extra
+Maintainer: Alexis Wilke <alexis@m2osw.com>
+Build-Depends: cmake,
+    debhelper,
+    dh-systemd,
+    libadvgetopt-dev (>= 1.1.11.2~xenial),
+    libas2js-dev (>= 0.1.18.194~xenial),
+    libboost-dev,
+    libexcept-dev (>= 1.0.2.250~xenial),
+    libicu-dev,
+    libmagick++-dev (>= 6.7.7.10-6ubuntu3),
+    libssl-dev (>= 1.0.1),
+    libve-dev (>= 1.1.0),
+    snapcmakemodules (>= 1.0.35.3~xenial)
+Standards-Version: 3.9.4
+Section: libs
+Homepage: http://www.vevideowallpaper.com/
+Vcs-Git: https://git.vevideowallpaper.com/mnt/git
+
+Package: panel-ve
+Section: admin
+Architecture: any
+Depends: panel-ve-data, ve-firewall, libve, ${shlibs:Depends}, ${misc:Depends}
+Description: Panel putting the video data in the OLED.
+ This package is installed on the embedded system. It connects to the main
+ or slave system that is assigned to that panel and then it receives the
+ data and displays it when required.
+
+# TODO: we have to determine whether we really want such a package
+#       the fact is that it installs files under /var/lib/ve/... which is
+#       not a place were a package should ever install anything; it could
+#       install the files under /usr/share/ve/... instead and create softlinks
+#       under the /var/lib/ve/... folder -- but in the demo we will not update
+#       the backgrounds/images so that should be fine (well... we will upload
+#       images, but not the existing ones)
+#       At the same time we need at least 2 packages here for our scripts
+#       creating the packages to work seamlessly.
+#
+Package: panel-ve-data
+Section: admin
+Architecture: all
+Depends: ve-base, ${shlibs:Depends}, ${misc:Depends}
+Description: Data used by the panel-ve service.
+ This package has all the data of the panel. These are images and background
+ movies.
+
+Package: panel-updater
+Section: admin
+Architecture: any
+Description: Service used to remotely update a panel.
+ This service is used to trigger an upgrade on demand. This is done by
+ the message-updater which sends a message to the service which in turn
+ can start the upgrade. If currently upgrading, a request for upgrade
+ will fail. The service runs as root so it can run the apt-get command
+ as expected.
+
+# vim: ts=4 sw=4 et
