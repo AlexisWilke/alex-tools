@@ -1,9 +1,4 @@
-usr/sbin/panel-ve                      usr/sbin
-usr/bin/final-jetson-setup             usr/bin
-usr/bin/final-system-setup             usr/bin
-usr/bin/service-panel-ve               usr/bin
-usr/bin/favorite-icon-generator        usr/bin
-conf/panel-ve.service                  usr/lib/systemd/user
-conf/panel-ve.conf                     etc/ve
-conf/panel-ve-prefs.xml                etc/ve/prefs
-conf/logger/panel-ve.conf              etc/ve/logger
+usr/bin/atype                      usr/bin
+usr/bin/cleanrc                    usr/bin
+usr/bin/hex                        usr/bin
+usr/bin/poke                       usr/bin
