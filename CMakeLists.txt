@@ -14,6 +14,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
+cmake_minimum_required(VERSION 3.5)
+
+
 ##############################
 ### atype                  ###
 ##############################
@@ -86,6 +89,21 @@ install(
         ${PROJECT_NAME}
 
     RUNTIME DESTINATION
+        bin
+)
+
+
+##############################
+### scripts                ###
+##############################
+
+project(scripts)
+
+install(
+    PROGRAMS
+        concat.sh
+
+    DESTINATION
         bin
 )
 

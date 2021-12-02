@@ -15,11 +15,12 @@
 
 #include	<stdio.h>
 #include	<stdlib.h>
+#include	<string.h>
 #include	<unistd.h>
 
 int main(int argc, char *argv[])
 {
-	long		c, i, do_ctrl, do_rename, quiet, ctrl;
+	long		c, i, r, do_ctrl, do_rename, quiet, ctrl;
 	FILE		*f, *d;
 	char		buf[256], bak[256];
 
@@ -100,7 +101,12 @@ int main(int argc, char *argv[])
 			remove(bak);
 			rename(argv[i], bak);
 			sprintf(bak, "mv \"%s\" \"%s\"", buf, argv[i]);
-			system(bak);
+			r = system(bak);
+			if(r != 0)
+			{
+				fprintf(stderr, "error: creating a backup of \"%s\" failed.\n", buf);
+				exit(1);
+			}
 		}
 		else {
 			remove(buf);	/* remove the temp */

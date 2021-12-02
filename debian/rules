@@ -10,12 +10,11 @@
 #export DH_VERBOSE=1
 
 %:
-	dh $@ --with systemd --parallel
+	dh $@ --parallel
 
 override_dh_auto_configure:
 	dh_auto_configure -- -DCMAKE_BUILD_TYPE=Release
 
-override_dh_fixperms:
-	dh_fixperms
-	chmod u+s debian/panel-ve/usr/bin/final-jetson-setup
+#override_dh_fixperms:
+#	dh_fixperms
 
