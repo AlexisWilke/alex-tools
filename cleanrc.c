@@ -54,6 +54,7 @@ int main(int argc, char *argv[])
 			exit(1);
 		}
 		snprintf(buf, sizeof(buf), "/tmp/clearc%d.tmp", getpid());
+		buf[sizeof(buf) - 1] = '\0';
 		d = fopen(buf, "wb");
 		if(d == NULL) {
 			fprintf(stderr, "ERROR: can't open file \"%s\".\n", buf);
@@ -100,7 +101,8 @@ int main(int argc, char *argv[])
 			sprintf(bak, "%s.bak", argv[i]);
 			remove(bak);
 			rename(argv[i], bak);
-			sprintf(bak, "mv \"%s\" \"%s\"", buf, argv[i]);
+			snprintf(bak, sizeof(bak), "mv \"%s\" \"%s\"", buf, argv[i]);
+			bak[sizeof(bak) - 1] = '\0';
 			r = system(bak);
 			if(r != 0)
 			{
