@@ -1,4 +1,4 @@
-usr/bin/atype                      usr/bin
-usr/bin/cleanrc                    usr/bin
-usr/bin/hex                        usr/bin
-usr/bin/poke                       usr/bin
+obj-x86_64-linux-gnu/atype                      usr/bin
+obj-x86_64-linux-gnu/cleanrc                    usr/bin
+obj-x86_64-linux-gnu/hex                        usr/bin
+obj-x86_64-linux-gnu/poke                       usr/bin

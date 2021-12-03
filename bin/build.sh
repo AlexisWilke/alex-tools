@@ -45,7 +45,7 @@ echo
 VERSION=`dpkg-parsechangelog --show-field Version`
 echo "Building alex-tools v${VERSION}"
 mkdir -p BUILD/Packages/alex-tools_${VERSION}/dist
-cp -r *.c *.awk *.sh debian LICENSE.txt README.md BUILD/Packages/alex-tools_${VERSION}
+cp -r *.* debian BUILD/Packages/alex-tools_${VERSION}
 cd BUILD/Packages/alex-tools_${VERSION}
 dpkg-buildpackage -us -uc
 

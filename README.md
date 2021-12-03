@@ -45,4 +45,4 @@ some in my ~/bin folder which I need to install on many of my
 systems and that would be useful.
 
 
-# vim: ts=4 sw=4 et
+-- vim: ts=4 sw=4 et
