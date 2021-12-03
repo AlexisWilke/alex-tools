@@ -1,0 +1,15 @@
+#!/bin/sh
+#
+# Install dependencies required by the project
+#
+
+echo "--- Install packages"
+apt-get install \
+    catch \
+    cmake \
+    dpkg-dev \
+    dh-make \
+    gcc \
+    g++
+
+# vim: ts=4 sw=4 et

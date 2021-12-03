@@ -2,8 +2,7 @@ Source: alex-tools
 Priority: extra
 Maintainer: Alexis Wilke <alexis@m2osw.com>
 Build-Depends: cmake,
-    debhelper,
-    dh-systemd
+    debhelper
 Standards-Version: 3.9.4
 Section: libs
 Vcs-Git: https://github.com/AlexisWilke/alex-tools
