@@ -53,8 +53,12 @@ int main(int argc, char *argv[])
 			fprintf(stderr, "ERROR: can't open file \"%s\".\n", argv[i]);
 			exit(1);
 		}
-		snprintf(buf, sizeof(buf), "/tmp/clearc%d.tmp", getpid());
-		buf[sizeof(buf) - 1] = '\0';
+		r = snprintf(buf, sizeof(buf), "/tmp/clearc%d.tmp", getpid());
+		if(r < 0)
+		{
+			fprintf(stderr, "ERROR: snprintf() buffer overflow.\n");
+			exit(1);
+		}
 		d = fopen(buf, "wb");
 		if(d == NULL) {
 			fprintf(stderr, "ERROR: can't open file \"%s\".\n", buf);
@@ -101,8 +105,12 @@ int main(int argc, char *argv[])
 			sprintf(bak, "%s.bak", argv[i]);
 			remove(bak);
 			rename(argv[i], bak);
-			snprintf(bak, sizeof(bak), "mv \"%s\" \"%s\"", buf, argv[i]);
-			bak[sizeof(bak) - 1] = '\0';
+			r = snprintf(bak, sizeof(bak), "mv \"%s\" \"%s\"", buf, argv[i]);
+			if(r < 0)
+			{
+				fprintf(stderr, "ERROR: snprintf() buffer overflow.\n");
+				exit(1);
+			}
 			r = system(bak);
 			if(r != 0)
 			{
