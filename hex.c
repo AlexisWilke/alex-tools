@@ -124,7 +124,7 @@ void integer(char c, long v)
 int main(int argc, char *argv[])
 {
 	long		i, j, v, int_result, total, cnt;
-	char		tp, *s;
+	char		*s;
 	double		dbl_result;
 
 	if(argc == 1)
