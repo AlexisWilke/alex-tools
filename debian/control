@@ -10,7 +10,9 @@ Vcs-Git: https://github.com/AlexisWilke/alex-tools
 Package: alex-tools
 Section: utils
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: vim-gtk3,
+    ${shlibs:Depends},
+    ${misc:Depends}
 Description: Various Command Line Tools
  This package includes various tools I like to use around my Linux machines.
  Some of the entries are just shell scripts I use for example to list rules

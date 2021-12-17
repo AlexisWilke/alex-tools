@@ -23,7 +23,7 @@ echo
 	cmake -DCMAKE_BUILD_TYPE=Debug \
 		-DCMAKE_INSTALL_PREFIX:PATH=dist \
 		../..
-	make install
+	VERBOSE=1 make install
 )
 
 echo
@@ -35,7 +35,7 @@ echo
 	cmake -DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_INSTALL_PREFIX:PATH=dist \
 		../..
-	make install
+	VERBOSE=1 make install
 )
 
 echo

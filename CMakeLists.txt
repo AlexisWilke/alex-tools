@@ -17,6 +17,9 @@
 cmake_minimum_required(VERSION 3.5)
 
 
+set(CMAKE_C_FLAGS_DEBUG   "${CMAKE_C_FLAGS_DEBUG} -DDEBUG -D_DEBUG -g -O0 -Werror -Wall")
+set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -DNDEBUG -O3 -Werror -Wall")
+
 ##############################
 ### atype                  ###
 ##############################
