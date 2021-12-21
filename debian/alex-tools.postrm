@@ -1,0 +1,30 @@
+#!/bin/sh -e
+
+# Source debconf library
+. /usr/share/debconf/confmodule
+
+if [ "$1" = "purge" ]
+then
+    # Since we copy those files "manually" in the .postinst, we want to
+    # remove them on a purge
+    #
+    for u in /root /home/*
+    do
+        # TODO: see for a way to compare, at this point the
+        #       /etc/skel/.lessfilter file was removed
+        #
+        #if cmp -s /etc/skel/.lessfilter "${u}/.lessfilter"
+        #then
+            rm -f "${u}/.lessfilter"
+        #fi
+
+        # TODO: again, if some files were updated, we may want to keep a
+        #       copy instead of bulldoser all of these
+        #
+        rm -rf "${u}/.config/alex-tools"
+    done
+fi
+
+#DEBHELPER#
+
+# vim: ts=4 sw=4 et nocindent
