@@ -1,4 +1,4 @@
-obj-x86_64-linux-gnu/atype                      usr/bin
-obj-x86_64-linux-gnu/cleanrc                    usr/bin
-obj-x86_64-linux-gnu/hex                        usr/bin
-obj-x86_64-linux-gnu/poke                       usr/bin
+#!/usr/bin/dh-exec
+debian/alex-tools/usr/share/alex-tools/skel/lessfilter                       => etc/skel/.lessfilter
+debian/alex-tools/usr/share/alex-tools/skel/lessfilter-firewall.sh           => etc/skel/.config/alex-tools/lessfilter-firewall.sh
+debian/alex-tools/usr/share/alex-tools/skel/lessfilter-on-mimetype.sh        => etc/skel/.config/alex-tools/lessfilter-on-mimetype.sh

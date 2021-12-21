@@ -4,11 +4,12 @@
 #
 
 echo "--- Install packages"
-apt-get install \
+sudo apt-get install \
     catch \
     cmake \
+    dh-exec \
+    dh-systemd \
     dpkg-dev \
-    dh-make \
     gcc \
     g++
 

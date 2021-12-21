@@ -1,0 +1,11 @@
+#!/bin/bash -e
+
+for filter in ~/.config/lessfilter/*
+do
+	if test -x "${filter}"
+	then
+		exec "${filter}" "${1}"
+	fi
+done
+
+exit 1

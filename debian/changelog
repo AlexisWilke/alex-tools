@@ -1,5 +1,17 @@
 alex-tools (1.1) xenial; urgency=high
 
+  * Added the lessfilter scripts to display objdump -x ... of ELF files.
+  * Corrected the name of the create-packages.sh script (no more "-ve-").
+  * Reorganized the tools & scripts in separate folders.
+  * Added the new tools and scripts folder to the cp commandto create packages.
+  * Depend on dh-exec and dh-systemd (see install-ubuntu-dependencies)
+  * Use the dh-exec in the .install to rename the lessfilter as .lessfilter
+  * Removed the auto-installed binaries from the .install file.
+
+ -- Alexis Wilke <alexis@m2osw.com>  Tue, 21 Dec 2021 11:18:14 -0800
+
+alex-tools (1.0) xenial; urgency=high
+
   * First version of the package.
 
  -- Alexis Wilke <alexis@m2osw.com>  Wed, 01 Dec 2021 21:46:59 -0800

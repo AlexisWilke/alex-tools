@@ -14,10 +14,29 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-cmake_minimum_required(VERSION 3.5)
+##############################
+### scripts                ###
+##############################
 
+project(scripts)
 
-add_subdirectory(tools)
-add_subdirectory(scripts)
+install(
+    PROGRAMS
+        concat.sh
+
+    DESTINATION
+        bin
+)
+
+install(
+    PROGRAMS
+        lessfilter
+        lessfilter-firewall.sh
+        lessfilter-on-mimetype.sh
+
+    DESTINATION
+        share/alex-tools/skel
+)
+
 
 # vim: ts=4 sw=4 et nocindent

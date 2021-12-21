@@ -7,8 +7,8 @@
 
 if ! test atype.c
 then
-	echo "error: script must be run from within the alex-tools folder"
-	exit 1
+    echo "error: script must be run from within the alex-tools folder"
+    exit 1
 fi
 
 if test "`whoami`" = "root"
@@ -22,7 +22,7 @@ rm -rf BUILD/Packages
 VERSION=`dpkg-parsechangelog --show-field Version`
 echo "Building alex-tools v${VERSION}"
 mkdir -p BUILD/Packages/alex-tools_${VERSION}
-cp -r *.* debian BUILD/Packages/alex-tools_${VERSION}
+cp -r *.* debian tools scripts BUILD/Packages/alex-tools_${VERSION}
 cd BUILD/Packages/alex-tools_${VERSION}
 dpkg-buildpackage -us -uc
 

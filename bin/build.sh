@@ -42,5 +42,5 @@ echo
 echo "info: *** build package ***"
 echo
 (
-	bin/create-ve-packages.sh
+	bin/create-packages.sh
 )
