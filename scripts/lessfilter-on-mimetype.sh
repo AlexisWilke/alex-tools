@@ -2,7 +2,7 @@
 
 MIME=`file --brief --mime-type "${1}"`
 case "${MIME}" in
-"application/x-sharedlib")
+"application/x-sharedlib"|"application/x-pie-executable")
         objdump -x "${1}"
         exit 0
         ;;
