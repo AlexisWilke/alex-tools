@@ -15,8 +15,11 @@ then
     do
         if ! test -f "${u}/.lessfilter"
         then
-            cp /usr/share/alex-tools/.lessfilter "${u}/.lessfilter"
+            cp /etc/skel/.lessfilter "${u}/.lessfilter"
             chmod 700 "${u}/.lessfilter"
+
+            cp -r /etc/skel/.config/alex-tools "${u}/.config/."
+            chmod 700 "${u}/.config/alex-tools/*.sh"
         fi
     done
 fi
