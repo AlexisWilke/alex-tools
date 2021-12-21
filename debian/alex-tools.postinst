@@ -17,10 +17,12 @@ then
         then
             cp /etc/skel/.lessfilter "${u}/.lessfilter"
             chmod 700 "${u}/.lessfilter"
+            echo chown "${u}" "${u}/.lessfilter"
             chown "${u}" "${u}/.lessfilter"
 
             cp -r /etc/skel/.config/alex-tools "${u}/.config/."
             chmod 700 "${u}/.config/alex-tools/"*".sh"
+            echo chown "${u}" "${u}/.config/alex-tools/"*".sh"
             chown "${u}" "${u}/.config/alex-tools/"*".sh"
         fi
     done
