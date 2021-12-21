@@ -8,7 +8,7 @@ sudo apt-get install \
     catch \
     cmake \
     dh-exec \
-    dh-systemd \
+    dh-make \
     dpkg-dev \
     gcc \
     g++
