@@ -1,4 +1,4 @@
-# Copyright (C) 2001-2021 by Alexis Wilke
+# Copyright (C) 2001-2022 by Alexis Wilke
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,11 +14,35 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-cmake_minimum_required(VERSION 3.5)
+##############################
+### vim addons             ###
+##############################
 
+project(vim-addons)
 
-add_subdirectory(tools)
-add_subdirectory(scripts)
-add_subdirectory(vim)
+install(
+    FILES
+        vimrc
+
+    DESTINATION
+        share/alex-tools/skel
+)
+
+install(
+    DIRECTORY
+        plugin
+
+    DESTINATION
+        share/vim/addons
+)
+
+install(
+    DIRECTORY
+        syntax
+
+    DESTINATION
+        share/vim/addons
+)
+
 
 # vim: ts=4 sw=4 et nocindent

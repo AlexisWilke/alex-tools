@@ -1,0 +1,67 @@
+" Source: https://github.com/AlexisWilke/alex-tools
+" License: GPL3
+
+set modeline ai nowrap hls nocindent incsearch vb sc ru
+set wildmenu
+set t_vb=""
+set sidescroll=10 textwidth=0
+set makeprg=amake
+set foldcolumn=0
+set formatoptions=cro
+set comments=s1:/*,mb:*,ex:*/,b://,b://!
+set encoding=latin1
+set mousemodel=extend
+set backspace=indent,eol,start
+set guioptions=ar
+set matchpairs+=<:>
+packadd! matchit
+
+" I don't usually want that option, but to remember about it, I leave it here
+"set nostartofline
+
+" I prefer to have the default in most cases
+"set fencs=<file encoding> (i.e. windows-1252, utf-8, etc.)
+
+" I had problems in some version of Ubuntu and forced a font
+"set guifont=-adobe-courier-medium-r-normal-*-*-120-*-*-m-*-iso8859-1
+
+map Y y$
+
+" In most of my projects, I have a script to run `make -C <some-place> [<target>]`
+map <F1> :!./mk
+map <F2> :!./mk -i
+
+" Hit <F5> to update a changelog signature
+map <F5> 0C -- Alexis Wilke <alexis@m2osw.com>  <C-R>=strftime("%a, %d %b %Y %H:%M:%S %z")<CR><Esc>
+
+syntax on
+if !exists("my_autocommands_loaded")
+  let my_autocommands_loaded=1
+  au BufNewFile,BufReadPost *.rsc               setf alex-tools-resources
+  au BufNewFile,BufReadPost *.asc               setf alex-tools-asc
+  au BufNewFile,BufReadPost *.js                setf alex-tools-as2js
+  au BufNewFile,BufReadPost *.box               setf alex-tools-box
+  au BufNewFile,BufReadPost *.adm               setf alex-tools-disassembler_module
+  au BufNewFile,BufReadPost *.sswf              setf alex-tools-sswf
+  " au BufNewFile,BufReadPost *.html*             setf alex-tools-html
+  au BufNewFile,BufReadPost *.html*             setf html
+  au BufNewFile,BufReadPost *.amap              setf alex-tools-amap
+  au BufNewFile,BufReadPost *.module            setf php
+  au BufNewFile,BufReadPost *.install           setf alex-tools-php
+  au BufNewFile,BufReadPost *.h2m               setf alex-tools-nroff
+  au BufNewFile,BufReadPost /etc/logrotate.d/*  setf alex-tools-logrotate
+  au BufNewFile,BufReadPost *.shader,*.frag,*.vert,*.fp,*.vp,*.glsl  setf alex-tools-glsl
+  au BufNewFile,BufReadPost *[mM]akefile*,*.mk,*.mak,*make.rule*,*makerc  setf alex-tools-make
+  au BufNewFile,BufReadPost *.c,*.c.in,*.c++,*.cxx,*.cpp,*.cpp.in,*.C,*.ci,*.h,*.h.in,*.H,*.hpp,*.hpp.in,.h++,.async  setf alex-tools-cpp-extensions
+endif
+
+" At this point I'm removing that because it's just too annoying with
+" the fact that searches do no show up in that range.
+" highlight OverLength ctermbg=darkred ctermfg=white guibg=#FFD9D9
+" 3match OverLength /\%81v.\+/
+set cc=80
+
+unmenu *
+unmenu! *
+
+" vim: ts=2 sw=2 et

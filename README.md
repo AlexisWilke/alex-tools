@@ -44,5 +44,23 @@ case. I will add more as I create new scripts. Specifically, I have
 some in my ~/bin folder which I need to install on many of my
 systems and that would be useful.
 
+# VIM Syntax Extensions
+
+At this time, I install those in the skeleton and I have a `.vimrc`
+file. However, I am thinking that this is not what one wants in the
+end. There are ways to make this work properly, it just needs a little
+more work.
+
+1. put the vimrc functionality for syntax detection under a plugin
+   (see `/usr/share/vim/addons/plugins/...`)
+2. put the syntax files under `/usr/share/vim/addons/syntax/...` with
+   a name specific to my plugin (i.e. alex-tools-<name>.vim)
+3. verify that the order works as expected, my `cpp.vim` extension, for
+   example, must be the one loaded for C++ files since it extends the
+   default `cpp.vim`; that works in my `.vimrc` file, it's TBD in a plugin
+
+Some additional info:
+https://vi.stackexchange.com/questions/17185
+
 
 -- vim: ts=4 sw=4 et

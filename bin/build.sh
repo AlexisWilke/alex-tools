@@ -1,5 +1,6 @@
 #!/bin/sh
 #
+# License: GPL v3
 
 if ! test atype.c
 then

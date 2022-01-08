@@ -13,18 +13,23 @@ then
     #
     for u in /root /home/*
     do
-        if ! test -f "${u}/.lessfilter"
-        then
-            NAME="`basename ${u}`"
+        n="`basename ${u}`"
 
-            cp /etc/skel/.lessfilter "${u}/.lessfilter"
-            chmod 700 "${u}/.lessfilter"
-            chown "${NAME}" "${u}/.lessfilter"
+        mkdir -p "${u}/.config"
 
-            cp -r /etc/skel/.config/alex-tools "${u}/.config/."
-            chmod 700 "${u}/.config/alex-tools/"*".sh"
-            chown "${NAME}" "${u}/.config/alex-tools/"*".sh"
-        fi
+        l="${u}/.lessfilter"
+        cp --no-clobber /etc/skel/.lessfilter "${l}"
+        chmod 700 "${l}"
+        chown "${n}" "${l}"
+
+        cp --no-clobber --recursive /etc/skel/.config/alex-tools "${u}/.config/."
+        chmod 700 "${u}/.config/alex-tools/"*".sh"
+        chown "${n}" "${u}/.config/alex-tools/"*".sh"
+
+        v="${u}/.vimrc"
+        cp --no-clobber /etc/skel/.vimrc "${v}"
+        chmod 600 "${v}"
+        chown "${n}" "${v}"
     done
 fi
 
