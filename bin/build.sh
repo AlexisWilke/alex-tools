@@ -13,6 +13,19 @@ then
     exit 1
 fi
 
+while test -n "$1"
+do
+	case "$1" in
+	"--help"|"-h")
+		echo "Usage: `basename $0` [--opts]"
+		echo "where --opts is one or more of:"
+		echo "  --help | -h     print out this help screen"
+		exit 1
+		;;
+
+	esac
+done
+
 rm -rf BUILD
 
 echo "info: *** build Debug ***"

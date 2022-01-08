@@ -10,12 +10,21 @@ Vcs-Git: https://github.com/AlexisWilke/alex-tools
 Package: alex-tools
 Section: utils
 Architecture: any
-Depends: vim-gtk3,
-    ${shlibs:Depends},
+Depends: ${shlibs:Depends},
     ${misc:Depends}
 Description: Various Command Line Tools
  This package includes various tools I like to use around my Linux machines.
  Some of the entries are just shell scripts I use for example to list rules
  in my firewall.
+
+Package: alex-tools-gui
+Section: utils
+Architecture: any
+Depends: vim-gtk3, alex-tools,
+    ${shlibs:Depends},
+    ${misc:Depends}
+Description: Various Command Line Tools requiring X-Windows
+ This package is used along the alex-tools package, but it includes
+ dependencies and tools that require X-Windows (more specifically, Gnome).
 
 # vim: ts=4 sw=4 et

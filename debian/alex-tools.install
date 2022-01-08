@@ -1,4 +1,5 @@
 #!/usr/bin/dh-exec
-debian/alex-tools/usr/share/alex-tools/skel/lessfilter                       => etc/skel/.lessfilter
-debian/alex-tools/usr/share/alex-tools/skel/lessfilter-firewall.sh           => etc/skel/.config/alex-tools/lessfilter-firewall.sh
-debian/alex-tools/usr/share/alex-tools/skel/lessfilter-on-mimetype.sh        => etc/skel/.config/alex-tools/lessfilter-on-mimetype.sh
+debian/tmp/usr/bin                                                    usr/bin/
+debian/tmp/usr/share/alex-tools/skel/lessfilter                       => etc/skel/.lessfilter
+debian/tmp/usr/share/alex-tools/skel/lessfilter-firewall.sh           => etc/skel/.config/alex-tools/lessfilter-firewall.sh
+debian/tmp/usr/share/alex-tools/skel/lessfilter-on-mimetype.sh        => etc/skel/.config/alex-tools/lessfilter-on-mimetype.sh
