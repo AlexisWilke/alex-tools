@@ -2,7 +2,7 @@
 #
 # License: GPL v3
 
-if ! test atype.c
+if ! test -f debian/changelog
 then
 	echo "error: script must be run from within the alex-tools folder"
 	exit 1

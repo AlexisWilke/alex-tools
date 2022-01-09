@@ -1,6 +1,7 @@
 " Source: https://github.com/AlexisWilke/alex-tools
 " License: GPL3
 
+let &runtimepath .= ',/usr/share/vim/addons'
 set modeline ai nowrap hls nocindent incsearch vb sc ru
 set wildmenu
 set t_vb=""

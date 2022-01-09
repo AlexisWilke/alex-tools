@@ -5,7 +5,7 @@
 # This is very messy, so I run it in a separate folder named BUILD/Packages
 
 
-if ! test -f tools/atype.c
+if ! test -f debian/changelog
 then
     echo "error: script must be run from within the alex-tools folder"
     exit 1
@@ -19,15 +19,16 @@ fi
 
 rm -rf BUILD/Packages
 
+PROJECT=alexis-tools
 VERSION=`dpkg-parsechangelog --show-field Version`
-echo "Building alex-tools v${VERSION}"
+echo "Building ${PROJECT} v${VERSION}"
 
 # Prepare source with correct directory name
-mkdir -p BUILD/Packages/alex-tools_${VERSION}
-tar --create --exclude-vcs-ignores --file=- . | tar --directory="BUILD/Packages/alex-tools_${VERSION}" --extract --file=-
+mkdir -p BUILD/Packages/a${PROJECT}_${VERSION}
+tar --create --exclude-vcs-ignores --file=- . | tar --directory="BUILD/Packages/${PROJECT}_${VERSION}" --extract --file=-
 
 # Actually run a build
-cd BUILD/Packages/alex-tools_${VERSION}
+cd BUILD/Packages/${PROJECT}_${VERSION}
 dpkg-buildpackage -us -uc
 
 # vim: ts=4 sw=4 et
