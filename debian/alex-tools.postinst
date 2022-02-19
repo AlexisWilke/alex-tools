@@ -14,6 +14,11 @@ then
     for u in /root /home/*
     do
         n="`basename ${u}`"
+        if ! getent passwd "$n" >/dev/null
+        then
+            # not a real user, ignore
+            continue
+        fi
 
         mkdir -p "${u}/.config"
 

@@ -1,10 +1,19 @@
-alex-tools (1.3) xenial; urgency=high
+alex-tools (1.4) bionic; urgency=high
+
+  * Verify that a directory under /home is an actual user.
+  * Changed version in changelog to bionic.
+  * Removed spurious 'a' in build script.
+  * Fixed the project name (alex, not alexis).
+
+ -- Alexis Wilke <alexis@m2osw.com>  Sat, 19 Feb 2022 06:08:29 -0800
+
+alex-tools (1.3) bionic; urgency=high
 
   * Fixed the installation of the share folder.
 
  -- Alexis Wilke <alexis@m2osw.com>  Sat, 08 Jan 2022 11:38:33 -0800
 
-alex-tools (1.2) xenial; urgency=high
+alex-tools (1.2) bionic; urgency=high
 
   * Added my vim syntax extensions and .vimrc files.
   * Added an ./mk script.
@@ -13,7 +22,7 @@ alex-tools (1.2) xenial; urgency=high
 
  -- Alexis Wilke <alexis@m2osw.com>  Sat, 08 Jan 2022 11:31:26 -0800
 
-alex-tools (1.1) xenial; urgency=high
+alex-tools (1.1) bionic; urgency=high
 
   * Added the lessfilter scripts to display objdump -x ... of ELF files.
   * Corrected the name of the create-packages.sh script (no more "-ve-").
@@ -25,7 +34,7 @@ alex-tools (1.1) xenial; urgency=high
 
  -- Alexis Wilke <alexis@m2osw.com>  Tue, 21 Dec 2021 11:18:14 -0800
 
-alex-tools (1.0) xenial; urgency=high
+alex-tools (1.0) bionic; urgency=high
 
   * First version of the package.
 

@@ -19,12 +19,12 @@ fi
 
 rm -rf BUILD/Packages
 
-PROJECT=alexis-tools
+PROJECT=alex-tools
 VERSION=`dpkg-parsechangelog --show-field Version`
 echo "Building ${PROJECT} v${VERSION}"
 
 # Prepare source with correct directory name
-mkdir -p BUILD/Packages/a${PROJECT}_${VERSION}
+mkdir -p BUILD/Packages/${PROJECT}_${VERSION}
 tar --create --exclude-vcs-ignores --file=- . | tar --directory="BUILD/Packages/${PROJECT}_${VERSION}" --extract --file=-
 
 # Actually run a build
