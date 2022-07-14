@@ -1,0 +1,11 @@
+# Update the GPG duration to 2h and a maximum of 8h
+#
+for u in /home/*
+do
+	mkdir -p ${u}/.gnupg
+	edit-config --space ${u}/.gnupg/gpg-agent.conf default-cache-ttl 7200
+	edit-config --space ${u}/.gnupg/gpg-agent.conf max_cache_ttl 28800
+	USERNAME=`basename ${u}`
+	chown ${USERNAME}:${USERNAME} ${u}/.gnupg
+	chown ${USERNAME}:${USERNAME} ${u}/.gnupg/gpg-agent.conf
+done

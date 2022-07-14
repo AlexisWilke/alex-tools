@@ -36,6 +36,11 @@ then
         chmod 600 "${v}"
         chown "${n}" "${v}"
     done
+
+    # Update the pgp timeout because when I create PPAs, 5 min. is just way
+    # too short
+    #
+    extend-gpg-duration
 fi
 
 # vim: ts=4 sw=4 et nocindent
