@@ -39,6 +39,8 @@ char const *    g_progname = nullptr;
 enum hex_mode_t
 {
     MODE_ADD,
+    MODE_AND,
+    MODE_OR,
     MODE_XOR,
 };
 
@@ -46,30 +48,43 @@ enum hex_mode_t
 void to_utf8(char *buf, unsigned long v)
 {
     // valid Unicode?
-    if(v < 0
-    || (v >= 0xD800 && v <= 0xDFFF)
+    if((v >= 0xD800 && v <= 0xDFFF)
     || v >= 0x110000)
     {
         strcpy(buf, "--");
         return;
     }
 
-    if(v < 0x80)
+    if(v < ' ')
     {
         /* this will also encode '\0'... */
         sprintf(buf, "0x%02lX", v);
     }
+    else if(v < 0x80)
+    {
+        std::uint8_t const c0(v);
+        sprintf(buf, "0x%02X (%c)", c0, c0);
+    }
     else if(v < 0x800)
     {
-        sprintf(buf, "0x%02lX 0x%02lX", (v >> 6) | 0xC0, (v & 0x3F) | 0x80);
+        std::uint8_t const c0((v >> 6) | 0xC0);
+        std::uint8_t const c1((v & 0x3F) | 0x80);
+        sprintf(buf, "0x%02X 0x%02X (%c%c )", c0, c1, c0, c1);
     }
     else if(v < 0x10000)
     {
-        sprintf(buf, "0x%02lX 0x%02lX 0x%02lX", (v >> 12) | 0xE0, ((v >> 6) & 0x3F) | 0x80, (v & 0x3F) | 0x80);
+        std::uint8_t const c0((v >> 12) | 0xE0);
+        std::uint8_t const c1(((v >> 6) & 0x3F) | 0x80);
+        std::uint8_t const c2((v & 0x3F) | 0x80);
+        sprintf(buf, "0x%02X 0x%02X 0x%02X (%c%c%c )", c0, c1, c2, c0, c1, c2);
     }
     else
     {
-        sprintf(buf, "0x%02lX 0x%02lX 0x%02lX 0x%02lX", (v >> 18) | 0xF0, ((v >> 12) & 0x3F) | 0x80, ((v >> 6) & 0x3F) | 0x80, (v & 0x3F) | 0x80);
+        std::uint8_t const c0((v >> 18) | 0xF0);
+        std::uint8_t const c1(((v >> 12) & 0x3F) | 0x80);
+        std::uint8_t const c2(((v >> 6) & 0x3F) | 0x80);
+        std::uint8_t const c3((v & 0x3F) | 0x80);
+        sprintf(buf, "0x%02X 0x%02X 0x%02X 0x%02X (%c%c%c%c )", c0, c1, c2, c3, c0, c1, c2, c3);
     }
 }
 
@@ -167,7 +182,9 @@ void usage()
         << "Where --opts is one or more of:\n"
         << "       -h | --help     print out this help screen (or not parameters).\n"
         << "            --add      ADD between values when more than one (default).\n"
-        << "            --xor      XOR between values instead of ADD.\n";
+        << "            --and      AND between values when more than one.\n"
+        << "            --or       OR between values when more than one.\n"
+        << "            --xor      XOR between values when more than one.\n";
 }
 
 
@@ -209,6 +226,16 @@ int main(int argc, char *argv[])
         if(strcmp(argv[i], "--add") == 0)
         {
             mode = MODE_ADD;
+            continue;
+        }
+        if(strcmp(argv[i], "--and") == 0)
+        {
+            mode = MODE_AND;
+            continue;
+        }
+        if(strcmp(argv[i], "--or") == 0)
+        {
+            mode = MODE_OR;
             continue;
         }
         if(strcmp(argv[i], "--xor") == 0)
@@ -253,6 +280,16 @@ int main(int argc, char *argv[])
             {
             case MODE_ADD:
                 total += int_result;
+                break;
+
+            case MODE_AND:
+                op = '&';
+                total &= int_result;
+                break;
+
+            case MODE_OR:
+                op = '|';
+                total |= int_result;
                 break;
 
             case MODE_XOR:
