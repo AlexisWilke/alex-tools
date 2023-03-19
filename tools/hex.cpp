@@ -17,7 +17,17 @@
 #include	<stdio.h>
 #include	<string.h>
 
-long	version = 103;
+long		g_version = 104;
+
+char const *	g_progname = nullptr;
+
+
+enum hex_mode_t
+{
+	MODE_ADD,
+	MODE_XOR,
+};
+
 
 void to_utf8(char *buf, unsigned long v)
 {
@@ -91,63 +101,111 @@ long from_utf8(char const *buf)
 void integer(char c, long v)
 {
 	long		j, k;
-	char		buf[13], chr[5], utf8_buf[32];
 
-	k = 4;
+	char chr[10];
+	k = sizeof(chr) - 1;
 	chr[k] = 0;
 	j = v;
-	while(k > 0) {
+	while(k > 0)
+	{
 		k--;
-		if((j & 0x0FF) >= ' ' && (j & 0x0FF) <= 0x7E /*|| (j & 0x0FF) > 0x0A0*/) {
+		if(k == 4)
+		{
+			chr[k] = ':';
+		}
+		else
+		{
 			chr[k] = j & 0x0FF;
+			if(chr[k] < ' ' || chr[k] > 0x7E)
+			{
+				chr[k] = '?';
+			}
+			j >>= 8;
 		}
-		else {
-			chr[k] = '?';
-		}
-		j >>= 8;
 	}
+
+	char octal[22];
 	j = v;
-	k = 12;
-	buf[k] = '\0';
-	while(j > 0) {
+	k = sizeof(octal) - 1;
+	octal[k] = '\0';
+	while(j > 0)
+	{
 		k--;
-		buf[k] = '0' + (j & 7);
+		octal[k] = '0' + (j & 7);
 		j >>= 3;
 	}
-	to_utf8(utf8_buf, v);
-	printf("integer: %c%13ld, 0x%08lX, 0%s, %s, %s\n", c, v, v, buf + k, utf8_buf, chr);
 
-	return;
+	char utf8_buf[32];
+	to_utf8(utf8_buf, v);
+
+	printf("integer: %c%13ld, 0x%08lX, 0%s, %s, %s\n", c, v, v, octal + k, utf8_buf, chr);
+}
+
+
+void usage()
+{
+	printf("%s program V%.02f -- Written by Alexis WILKE (c) 1995\n", g_progname, (double) g_version / 100);
+	printf("Usage: %s [--opts] <value>[.<value>] ...\n", g_progname);
+	printf("       %s [--opts] \\\"<text (4 ASCII characters max)> ...\n", g_progname);
+	printf("       %s [--opts] \\\'<text (4 UTF-8 bytes max)> ...\n", g_progname);
+	printf("\n");
+	printf("Where --opts is one or more of:\n");
+	printf("       -h | --help     print out this help screen (or not parameters).\n");
+	printf("            --add      ADD between values when more than one (default).\n");
+	printf("            --xor      XOR between values instead of ADD.\n");
 }
 
 
 int main(int argc, char *argv[])
 {
-	long		i, j, v, int_result, total, cnt;
-	char		*s;
-	double		dbl_result;
+	char const * g_progname(strrchr(argv[0], '/'));
+	if(g_progname != nullptr)
+	{
+		++g_progname;
+	}
+	else
+	{
+		g_progname = argv[0];
+	}
 
 	if(argc == 1)
 	{
-		printf("%s program V%.02f -- Written by Alexis WILKE (c) 1995\n", argv[0], (double) version / 100);
-		printf("Usage: %s <value>[.<value>] | \\\"<text (4 characters max)>\n", argv[0]);
-		return (0);
+		usage();
+		return 0;
 	}
 
-	cnt = 0;
-	total = 0;
-	i = 1;
-	while(i < argc)
+	double dbl_result(0.0);
+	long v(0);
+	long int_result(0);
+	long cnt(0);
+	long total(0);
+	hex_mode_t mode(MODE_ADD);
+	for(int i(1); i < argc; ++i)
 	{
+		if(strcmp(argv[i], "--help") == 0
+		|| strcmp(argv[i], "-h") == 0)
+		{
+			usage();
+			return 0;
+		}
+		if(strcmp(argv[i], "--add") == 0)
+		{
+			mode = MODE_ADD;
+			continue;
+		}
+		if(strcmp(argv[i], "--xor") == 0)
+		{
+			mode = MODE_XOR;
+			continue;
+		}
+
 		if(*argv[i] == '"')
 		{
-			j = 1;
 			int_result = 0;
-			while(j < 5 && argv[i][j] != '\0')
+			for(int j(1); j < 5 && argv[i][j] != '\0'; ++j)
 			{
 				int_result <<= 8;
 				int_result |= (unsigned char) argv[i][j];
-				j++;
 			}
 			v = 1;
 		}
@@ -159,26 +217,48 @@ int main(int argc, char *argv[])
 		else {
 			if(strchr(argv[i], '.') != 0)
 			{
-				dbl_result = strtod(argv[i], &s);
+				char *end(nullptr);
+				dbl_result = strtod(argv[i], &end);
 				v = 2;
 			}
 			else
 			{
-				int_result = strtol(argv[i], &s, 0);
+				char *end(nullptr);
+				int_result = strtol(argv[i], &end, 0);
 				v = 1;
 			}
 		}
 		if(v == 1)
 		{
-			integer(i == 1 ? ' ' : '+', int_result);
-			total += int_result;
+			char op('+');
+			switch(mode)
+			{
+			case MODE_ADD:
+				total += int_result;
+				break;
+
+			case MODE_XOR:
+				op = '^';
+				total ^= int_result;
+				break;
+
+			}
+			if(cnt == 0)
+			{
+				// although some operators work as expected
+				// for the first iteration (i.e. '+', '^', etc.)
+				// many would result in an invalid number
+				// (i.e. '&', '*') so do this after the switch
+				//
+				total = int_result;
+			}
+			integer(cnt == 0 ? ' ' : op, int_result);
 			cnt++;
 		}
 		else
 		{
 			printf("  float: %13.12f\n", dbl_result);
 		}
-		i++;
 	}
 
 	if(cnt > 1)

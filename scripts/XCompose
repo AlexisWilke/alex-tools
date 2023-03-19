@@ -1,0 +1,10 @@
+# Own additions to the Compose file
+
+# Import default rules from the system Compose file
+include "%L"
+
+# Custom definitions
+<Multi_key> <bar> <greater>     : "▸" U25B8   # Black right-pointing small triangle
+<Multi_key> <tilde> <tilde>     : "≈" U2248   # NEARLY EQUAL
+
+# vim: fileencoding=utf8

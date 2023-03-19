@@ -62,7 +62,7 @@ install(
 project(hex)
 
 add_executable(${PROJECT_NAME}
-    hex.c
+    hex.cpp
 )
 
 install(
