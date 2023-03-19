@@ -172,6 +172,17 @@ void integer(char c, long v)
 }
 
 
+void floating_point(char c, double v)
+{
+    double const * ptr(&v);
+    printf("  float: %c %13.12f, bytes: 0x%08lX, integer: 0x%08lX\n"
+                , c
+                , v
+                , *reinterpret_cast<std::uint64_t const *>(ptr)
+                , long(v));
+}
+
+
 void usage()
 {
     std::cout
@@ -212,10 +223,12 @@ int main(int argc, char *argv[])
     }
 
     double dbl_result(0.0);
+    double dbl_total(0.0);
+    long dbl_cnt(0);
     long v(0);
     long int_result(0);
-    long cnt(0);
-    long total(0);
+    long int_cnt(0);
+    long int_total(0);
     hex_mode_t mode(MODE_ADD);
     for(int i(1); i < argc; ++i)
     {
@@ -266,17 +279,36 @@ int main(int argc, char *argv[])
             int_result = from_utf8(argv[i] + 1);
             v = 1;
         }
-        else {
-            if(strchr(argv[i], '.') != 0)
+        else
+        {
+            char *end(nullptr);
+            if(argv[i][0] == 'f' && argv[i][1] == ':')
             {
-                char *end(nullptr);
+                // take it from an integer (usually in hex.)
+                //
+                errno = 0;
+                int_result = strtol(argv[i] + 2, &end, 0);
+                if(errno == ERANGE)
+                {
+                    int_result = strtoul(argv[i] + 2, &end, 0);
+                }
+                long const * int_ptr(&int_result);
+                dbl_result = *reinterpret_cast<double const *>(int_ptr);
+                v = 2;
+            }
+            else if(strchr(argv[i], '.') != 0)
+            {
                 dbl_result = strtod(argv[i], &end);
                 v = 2;
             }
             else
             {
-                char *end(nullptr);
+                errno = 0;
                 int_result = strtol(argv[i], &end, 0);
+                if(errno == ERANGE)
+                {
+                    int_result = strtoul(argv[i], &end, 0);
+                }
                 v = 1;
             }
         }
@@ -286,52 +318,83 @@ int main(int argc, char *argv[])
             switch(mode)
             {
             case MODE_ADD:
-                total += int_result;
+                int_total += int_result;
                 break;
 
             case MODE_AND:
                 op = '&';
-                total &= int_result;
+                int_total &= int_result;
                 break;
 
             case MODE_MUL:
                 op = '*';
-                total *= int_result;
+                int_total *= int_result;
                 break;
 
             case MODE_OR:
                 op = '|';
-                total |= int_result;
+                int_total |= int_result;
                 break;
 
             case MODE_XOR:
                 op = '^';
-                total ^= int_result;
+                int_total ^= int_result;
                 break;
 
             }
-            if(cnt == 0)
+            if(int_cnt == 0)
             {
                 // although some operators work as expected
                 // for the first iteration (i.e. '+', '^', etc.)
                 // many would result in an invalid number
                 // (i.e. '&', '*') so do this after the switch
                 //
-                total = int_result;
+                int_total = int_result;
             }
-            integer(cnt == 0 ? ' ' : op, int_result);
-            cnt++;
+            integer(int_cnt == 0 ? ' ' : op, int_result);
+            ++int_cnt;
         }
         else
         {
-            printf("  float: %13.12f\n", dbl_result);
+            char op('+');
+            switch(mode)
+            {
+            default: // ADD (and bitwise operators)
+                dbl_total += dbl_result;
+                break;
+
+            case MODE_MUL:
+                op = '*';
+                dbl_total *= dbl_result;
+                break;
+
+            }
+            if(dbl_cnt == 0)
+            {
+                // although some operators work as expected
+                // for the first iteration (i.e. '+', '^', etc.)
+                // many would result in an invalid number
+                // (i.e. '&', '*') so do this after the switch
+                //
+                dbl_total = dbl_result;
+            }
+            floating_point(dbl_cnt == 0 ? ' ' : op, dbl_result);
+            ++dbl_cnt;
         }
     }
 
-    if(cnt > 1)
+    if(int_cnt > 1)
     {
         printf("-------------------------------------------------\n");
-        integer('=', total);
+        integer('=', int_total);
+    }
+    if(dbl_cnt > 1)
+    {
+        if(int_cnt <= 1)
+        {
+            printf("-------------------------------------------------\n");
+        }
+        floating_point('=', dbl_total);
     }
 
     return (0);
