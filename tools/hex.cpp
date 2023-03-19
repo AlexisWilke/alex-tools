@@ -40,6 +40,7 @@ enum hex_mode_t
 {
     MODE_ADD,
     MODE_AND,
+    MODE_MUL,
     MODE_OR,
     MODE_XOR,
 };
@@ -183,6 +184,7 @@ void usage()
         << "       -h | --help     print out this help screen (or not parameters).\n"
         << "            --add      ADD between values when more than one (default).\n"
         << "            --and      AND between values when more than one.\n"
+        << "            --mul      PRODUCT between values when more than one.\n"
         << "            --or       OR between values when more than one.\n"
         << "            --xor      XOR between values when more than one.\n";
 }
@@ -231,6 +233,11 @@ int main(int argc, char *argv[])
         if(strcmp(argv[i], "--and") == 0)
         {
             mode = MODE_AND;
+            continue;
+        }
+        if(strcmp(argv[i], "--mul") == 0)
+        {
+            mode = MODE_MUL;
             continue;
         }
         if(strcmp(argv[i], "--or") == 0)
@@ -285,6 +292,11 @@ int main(int argc, char *argv[])
             case MODE_AND:
                 op = '&';
                 total &= int_result;
+                break;
+
+            case MODE_MUL:
+                op = '*';
+                total *= int_result;
                 break;
 
             case MODE_OR:
