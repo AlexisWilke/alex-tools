@@ -26,6 +26,9 @@ The `hex` tool is used to convert integers and characters to numbers in
 hexadecimal, octal, decimal and also prints out the number as UTF-8
 which is used often now a day.
 
+The latest version also include better support for floating point
+numbers.
+
 ## poke
 
 The `poke` tool needs a lot of help to really become useful. Especially,
@@ -43,6 +46,12 @@ I used these script for that purpose. I like to keep them, just in
 case. I will add more as I create new scripts. Specifically, I have
 some in my ~/bin folder which I need to install on many of my
 systems and that would be useful.
+
+# sane-tty
+
+This script is used to reset a console. At times, a utility such as
+`less` messes up the console and using this function helps in fixing
+the normal console functionality.
 
 # VIM Syntax Extensions
 

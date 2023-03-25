@@ -23,6 +23,7 @@ project(scripts)
 install(
     PROGRAMS
         concat.sh
+        sane-tty
 
     DESTINATION
         bin
