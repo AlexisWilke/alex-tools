@@ -4,7 +4,9 @@
 include "%L"
 
 # Custom definitions
-<Multi_key> <bar> <greater>     : "▸" U25B8   # Black right-pointing small triangle
-<Multi_key> <tilde> <tilde>     : "≈" U2248   # NEARLY EQUAL
+<Multi_key> <bar> <greater>             : "▸" U25B8   # Black right-pointing small triangle
+<Multi_key> <tilde> <tilde>             : "≈" U2248   # NEARLY EQUAL
+<Multi_key> <less> <h> <greater>        : "↔" U2194   # LEFT RIGHT ARROW SYMBOL
+<Multi_key> <less> <exclam> <greater>   : "↕" U2195   # TOP DOWN ARROW SYMBOL
 
 # vim: fileencoding=utf8
