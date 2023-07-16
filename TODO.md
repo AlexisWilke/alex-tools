@@ -12,5 +12,6 @@
   to enable them in their account with `vim-addons install <name>`.
   See the `vim-scripts` package as an example of how to handle such.
 
-
+- Pulse Audio setup for VirtualBox (i.e. TCP on 127.0.0.1)
+  See https://bbs.archlinux.org/viewtopic.php?id=221934
 
