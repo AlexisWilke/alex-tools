@@ -15,3 +15,8 @@
 - Pulse Audio setup for VirtualBox (i.e. TCP on 127.0.0.1)
   See https://bbs.archlinux.org/viewtopic.php?id=221934
 
+- Also there seem to be something about a missing file
+  cp /usr/share/gdm/default.pa ~/.config/pulse/
+
+  See https://askubuntu.com/questions/1024012/pulseaudio-bluez5-util-c-getmanagedobjects-failed-org-freedesktop-dbus-err
+
