@@ -1,3 +1,9 @@
+alex-tools (1.6) bionic; urgency=high
+
+  * Do not print graphical controls (0x80 to 0x9F).
+
+ -- Alexis Wilke <alexis@m2osw.com>  Sun, 06 Aug 2023 19:53:47 -0700
+
 alex-tools (1.5) bionic; urgency=high
 
   * Adding `scripts/extend-gpg-duration` script.

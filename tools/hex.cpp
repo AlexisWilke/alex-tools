@@ -66,6 +66,14 @@ void to_utf8(char *buf, unsigned long v)
         std::uint8_t const c0(v);
         sprintf(buf, "0x%02X (%c)", c0, c0);
     }
+    else if(v < 0xA0)
+    {
+        // these are controls, so we cannot print them as is
+        //
+        std::uint8_t const c0((v >> 6) | 0xC0);
+        std::uint8_t const c1((v & 0x3F) | 0x80);
+        sprintf(buf, "0x%02X 0x%02X", c0, c1);
+    }
     else if(v < 0x800)
     {
         std::uint8_t const c0((v >> 6) | 0xC0);
