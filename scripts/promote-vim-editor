@@ -1,0 +1,12 @@
+#!/bin/sh
+#
+# I prefer to use vim as my editor but most often nano is the default
+# which I know how to use but it's very limited compared to vim...
+
+if test -x /usr/bin/vim.basic
+then
+	update-alternatives --set editor /usr/bin/vim.basic
+elif test -x /usr/bin/vim.tiny
+then
+	update-alternatives --set editor /usr/bin/vim.tiny
+fi

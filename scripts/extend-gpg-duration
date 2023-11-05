@@ -2,15 +2,18 @@
 #
 for u in /home/*
 do
-	mkdir -p ${u}/.gnupg
-	if test -f ${u}/.gnupg/gpg-agent.conf
+	if getent passwd ${u} && getent group ${u}
 	then
-		sed -i -e '/default-cache-ttl / d' ${u}/.gnupg/gpg-agent.conf
+		mkdir -p ${u}/.gnupg
+		if test -f ${u}/.gnupg/gpg-agent.conf
+		then
+			sed -i -e '/default-cache-ttl / d' ${u}/.gnupg/gpg-agent.conf
+		fi
+		echo "default-cache-ttl 7200" >> ${u}/.gnupg/gpg-agent.conf
+		sed -i -e '/max_cache_ttl / d' ${u}/.gnupg/gpg-agent.conf
+		echo "max_cache_ttl 28800" >> ${u}/.gnupg/gpg-agent.conf
+		USERNAME=`basename ${u}`
+		chown ${USERNAME}:${USERNAME} ${u}/.gnupg
+		chown ${USERNAME}:${USERNAME} ${u}/.gnupg/gpg-agent.conf
 	fi
-	echo "default-cache-ttl 7200" >> ${u}/.gnupg/gpg-agent.conf
-	sed -i -e '/max_cache_ttl / d' ${u}/.gnupg/gpg-agent.conf
-	echo "max_cache_ttl 28800" >> ${u}/.gnupg/gpg-agent.conf
-	USERNAME=`basename ${u}`
-	chown ${USERNAME}:${USERNAME} ${u}/.gnupg
-	chown ${USERNAME}:${USERNAME} ${u}/.gnupg/gpg-agent.conf
 done

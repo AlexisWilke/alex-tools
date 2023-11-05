@@ -24,6 +24,7 @@ install(
     PROGRAMS
         concat.sh
         extend-gpg-duration
+        promote-vim-editor
         sane-tty
 
     DESTINATION

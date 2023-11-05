@@ -1,3 +1,10 @@
+alex-tools (1.11) bionic; urgency=high
+
+  * Skip ghost users (folder /home/${u} without a passwd entry).
+  * Promote vim as the default editor.
+
+ -- Alexis Wilke <alexis@m2osw.com>  Sun, 05 Nov 2023 06:38:48 -0800
+
 alex-tools (1.10) bionic; urgency=high
 
   * Skip first sed if the file doesn't exist yet.

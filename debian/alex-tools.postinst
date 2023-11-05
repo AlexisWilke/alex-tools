@@ -41,6 +41,10 @@ then
     # too short
     #
     extend-gpg-duration
+
+    # Make sure vim is the default editor (especially for git commit)
+    #
+    promote-vim-editor
 fi
 
 # vim: ts=4 sw=4 et nocindent
