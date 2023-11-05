@@ -23,6 +23,7 @@ project(scripts)
 install(
     PROGRAMS
         concat.sh
+        extend-gpg-duration
         sane-tty
 
     DESTINATION

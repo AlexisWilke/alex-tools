@@ -1,5 +1,5 @@
 #!/usr/bin/dh-exec
-debian/tmp/usr/bin                                                    usr/bin/
+debian/tmp/usr/bin                                                    usr/
 debian/tmp/usr/share/alex-tools                                       usr/share/
 debian/tmp/usr/share/vim                                              usr/share/
 debian/tmp/usr/share/alex-tools/skel/vimrc                            => etc/skel/.vimrc

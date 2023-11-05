@@ -37,7 +37,7 @@ then
         chown "${n}" "${v}"
     done
 
-    # Update the pgp timeout because when I create PPAs, 5 min. is just way
+    # Update the gpg timeout because when I create PPAs, 5 min. is just way
     # too short
     #
     extend-gpg-duration
