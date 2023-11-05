@@ -16,6 +16,7 @@
 
 cmake_minimum_required(VERSION 3.5)
 
+project(alex_tools)
 
 add_subdirectory(tools)
 add_subdirectory(scripts)

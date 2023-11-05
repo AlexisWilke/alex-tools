@@ -14,6 +14,17 @@ do
 		TYPE=Debug
 		;;
 
+	"--help"|"-h")
+		echo "Usage: `basename $0` [--opts]"
+		echo "  -d | --debug       build Debug version"
+		echo "  -h | --help        print out this help screen"
+		echo "  -i | --install     build & install"
+		echo "  -b | --packages    build packages"
+		echo "  -p | --processors  set the number used to compile in parallel"
+		echo "  -r | --release     build the release version"
+		exit 1
+		;;
+
 	"--install"|"-i")
 		shift
 		TARGET=install
