@@ -2,6 +2,19 @@
 #
 # I prefer to use vim as my editor but most often nano is the default
 # which I know how to use but it's very limited compared to vim...
+#
+# Run with sudo ... or as root
+
+if test -n "$1"
+then
+	if test "$1" = "--help" -o "$1" = "-h"
+	then
+		echo "Usage: sudo $0"
+		exit 1
+	fi
+	echo "error: unknown command line option: $1"
+	exit 1
+fi
 
 if test -x /usr/bin/vim.basic
 then
