@@ -1,0 +1,13 @@
+#!/bin/sh
+#
+# To find out the correct name of the extension (in case it changes) use:
+#
+#    gnome-extensions list
+#
+# To check the current status, use:
+#
+#    gnome-extensions info system-monitor@paradoxxx.zero.gmail.com
+#
+
+gnome-extensions disable system-monitor@paradoxxx.zero.gmail.com
+gnome-extensions enable system-monitor@paradoxxx.zero.gmail.com

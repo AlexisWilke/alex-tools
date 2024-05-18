@@ -1,0 +1,16 @@
+#!/bin/sh
+#
+# pulseaudio does not seem to work properly on Ubuntu 22.04
+# I need to restart it after a reboot
+#
+# To check and know whether it's running or not use:
+#
+#     pactl info
+#
+# See: https://linux.m2osw.com/pulseaudio-not-starting-newer-ubuntu-2110-2204
+
+killall pulseaudio
+sleep 3
+pulseaudio --start
+
+# vim: ts=4 sw=4 et

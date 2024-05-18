@@ -25,6 +25,8 @@ install(
         concat.sh
         extend-gpg-duration
         promote-vim-editor
+        restart-pulseaudio
+        restart-system-monitor-extension
         sane-tty
 
     DESTINATION
