@@ -1,3 +1,10 @@
+alex-tools (1.12) bionic; urgency=high
+
+  * Added script to restart the system-monitor in the status bar.
+  * Added script to restart pulse audio.
+
+ -- Alexis Wilke <alexis@m2osw.com>  Sat, 18 May 2024 07:28:29 -0700
+
 alex-tools (1.11) bionic; urgency=high
 
   * Skip ghost users (folder /home/${u} without a passwd entry).
