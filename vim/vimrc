@@ -15,6 +15,8 @@ set mousemodel=extend
 set backspace=indent,eol,start
 set guioptions=ar
 set matchpairs+=<:>
+set spell
+set spelllang=en_us
 packadd! matchit
 
 " I don't usually want that option, but to remember about it, I leave it here
