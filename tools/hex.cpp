@@ -1,4 +1,4 @@
-// Copyright (C) 2001-2021 by Alexis Wilke
+// Copyright (C) 2001-2024 by Alexis Wilke
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,6 +16,7 @@
 
 // C++
 //
+#include    <cstdint>
 #include    <iostream>
 
 
@@ -103,19 +104,19 @@ long from_utf8(char const *buf)
     if((s[0] >= 0xC2 && s[0] <= 0xDF)
     && (s[1] >= 0x80 && s[1] <= 0xBF))
     {
-        return ((s[0] & 0x3F) << 6) | (s[1] & 0x3F);
+        return ((s[0] & 0x1F) << 6) | (s[1] & 0x3F);
     }
     if((s[0] == 0xE0 // excluding overlongs
         && (s[1] >= 0xA0 && s[1] <= 0xBF)
         && (s[2] >= 0x80 && s[2] <= 0xBF))
-    || (((0xE1 <= s[0] && s[0] <= 0xEC) || s[0] == 0xEE || s[0] == 0xEF) // straight 3-byte
+    || (((0xE1 >= s[0] && s[0] <= 0xEC) || s[0] == 0xEE || s[0] == 0xEF) // straight 3-byte
             && s[1] >= 0x80 && s[1] <= 0xBF
             && s[2] >= 0x80 && s[2] <= 0xBF)
     || (s[0] == 0xED // excluding surrogates
             && s[1] >= 0x80 && s[1] <= 0x9F
             && s[2] >= 0x80 && s[2] <= 0xBF))
     {
-        return ((s[0] & 0x3F) << 12) | ((s[1] & 0x3F) << 6) | (s[2] & 0x3F);
+        return ((s[0] & 0x0F) << 12) | ((s[1] & 0x3F) << 6) | (s[2] & 0x3F);
     }
     if((s[0] == 0xF0 // planes 1-3
         && s[1] >= 0x90 && s[1] <= 0xBF
@@ -130,7 +131,7 @@ long from_utf8(char const *buf)
              && s[2] >= 0x80 && s[2] <= 0xBF
              && s[3] >= 0x80 && s[3] <= 0xBF))
     {
-        return ((s[0] & 0x3F) << 18) | ((s[1] & 0x3F) << 12) | ((s[2] & 0x3F) << 6) | (s[3] & 0x3F);
+        return ((s[0] & 0x07) << 18) | ((s[1] & 0x3F) << 12) | ((s[2] & 0x3F) << 6) | (s[3] & 0x3F);
     }
 
     return -1;

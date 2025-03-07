@@ -1,4 +1,4 @@
-# Copyright (C) 2001-2021 by Alexis Wilke
+# Copyright (C) 2001-2024 by Alexis Wilke
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -93,7 +93,23 @@ install(
 )
 
 
+##############################
+### fix-ownership          ###
+##############################
 
+project(fix-ownership)
+
+add_executable(${PROJECT_NAME}
+    fix-ownership.cpp
+)
+
+install(
+    TARGETS
+        ${PROJECT_NAME}
+
+    RUNTIME DESTINATION
+        bin
+)
 
 
 
