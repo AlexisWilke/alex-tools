@@ -1081,6 +1081,37 @@ thread_local glob_to_list<C> * glob_to_list<C>::g_self = nullptr;
 
 
 
+int atoi(char const * s)
+{
+    if(s == nullptr
+    || *s == '\0')
+    {
+        errno = EINVAL;
+        return -1;
+    }
+
+    int val(0);
+    for(; *s != '\0'; ++s)
+    {
+        if(*s < '0'
+        || *s > '9')
+        {
+            errno = EINVAL;
+            return -1;
+        }
+        val *= 10;
+        val += *s - '0';
+        if(val < 0)
+        {
+            errno = ERANGE;
+            return -1;
+        }
+    }
+
+    return val;
+}
+
+
 void usage()
 {
     std::cout << "Usage: fix-groups [--opts] --old-group <gid> --new-group <gid> --root-tree <path>\n";
@@ -1127,7 +1158,7 @@ int main(int argc, char * argv[])
                     return 1;
                 }
                 old_owner = atoi(argv[i]);
-                if(old_owner <= 0)
+                if(old_owner < 0)
                 {
                     std::cerr << "error: --old-owner expects a positive number.\n";
                     return 1;
@@ -1142,7 +1173,7 @@ int main(int argc, char * argv[])
                     return 1;
                 }
                 new_owner = atoi(argv[i]);
-                if(new_owner <= 0)
+                if(new_owner < 0)
                 {
                     std::cerr << "error: --new-owner expects a positive number.\n";
                     return 1;
@@ -1157,7 +1188,7 @@ int main(int argc, char * argv[])
                     return 1;
                 }
                 old_group = atoi(argv[i]);
-                if(old_group <= 0)
+                if(old_group < 0)
                 {
                     std::cerr << "error: --old-group expects a positive number.\n";
                     return 1;
@@ -1172,7 +1203,7 @@ int main(int argc, char * argv[])
                     return 1;
                 }
                 new_group = atoi(argv[i]);
-                if(new_group <= 0)
+                if(new_group < 0)
                 {
                     std::cerr << "error: --new-group expects a positive number.\n";
                     return 1;
@@ -1201,35 +1232,51 @@ int main(int argc, char * argv[])
         }
     }
 
-    if(old_owner <= 0
-    && new_owner > 0)
+    if(old_owner < 0
+    && new_owner >= 0)
     {
         std::cerr << "error: --old-owner must be used when --new-owner is used.\n";
         return 1;
     }
 
-    if(old_group <= 0
-    && new_group > 0)
+    if(old_group < 0
+    && new_group >= 0)
     {
         std::cerr << "error: --old-group must be used when --new-group is used.\n";
         return 1;
     }
 
-    if(old_owner <= 0
-    && old_group <= 0)
+    if(old_owner < 0
+    && old_group < 0)
     {
-        std::cerr << "error: at least one of --old-owner --old-group must be specified.\n";
+        std::cerr << "error: at least one of --old-owner or --old-group must be specified.\n";
         return 1;
     }
 
-    if(old_owner > 0
-    && old_group > 0)
+    if(old_owner >= 0
+    && old_group >= 0)
     {
-        if((new_owner > 0) ^ (new_group > 0))
+        if((new_owner >= 0) ^ (new_group >= 0))
         {
             std::cerr << "error: when one of --new-owner or --new-group is specified then the other must also be specified.\n";
             return 1;
         }
+    }
+
+    if(old_owner >= 0
+    && new_owner >= 0
+    && old_owner == new_owner)
+    {
+        std::cerr << "error: the --old-owner and --new-owner cannot be equal.\n";
+        return 1;
+    }
+
+    if(old_group >= 0
+    && new_group >= 0
+    && old_group == new_group)
+    {
+        std::cerr << "error: the --old-group and --new-group cannot be equal.\n";
+        return 1;
     }
 
     if(root_tree.empty())
@@ -1238,18 +1285,19 @@ int main(int argc, char * argv[])
         return 1;
     }
 
-    int count(0);
     snapdev::glob_to_list<std::set<std::string>> glob;
     if(glob.read_path<
-            snapdev::glob_to_list_flag_t::GLOB_FLAG_IGNORE_ERRORS,
-            snapdev::glob_to_list_flag_t::GLOB_FLAG_RECURSIVE,
-            snapdev::glob_to_list_flag_t::GLOB_FLAG_EMPTY,
-            snapdev::glob_to_list_flag_t::GLOB_FLAG_PERIOD>(root_tree + "/*"))
+              snapdev::glob_to_list_flag_t::GLOB_FLAG_IGNORE_ERRORS
+            , snapdev::glob_to_list_flag_t::GLOB_FLAG_RECURSIVE
+            , snapdev::glob_to_list_flag_t::GLOB_FLAG_EMPTY
+            , snapdev::glob_to_list_flag_t::GLOB_FLAG_PERIOD>(root_tree + "/*"))
     {
         if(!glob.empty())
         {
             // handle file names
             //
+            int ocount(0);
+            int gcount(0);
             for(auto const & f : glob)
             {
                 struct stat st;
@@ -1271,45 +1319,73 @@ int main(int argc, char * argv[])
                     continue;
                 }
 
-                if(st.st_gid == new_group)
+                int o(-1);
+                int g(-1);
+
+                // in the following two tests, we do not have to verify the
+                // old_... == -1 because if it matches st.st_... then it's
+                // not -1
+                //
+                int const oc(ocount);
+                int const gc(gcount);
+
+                if(st.st_uid == old_owner
+                && st.st_uid != new_owner)
                 {
-                    // it already matches the new group, just skip that one
-                    //
-                    continue;
-                }
-                if(st.st_uid != old_owner
-                && st.st_gid != old_group)
-                {
-                    if(verbose)
+                    ++ocount;
+                    if(new_owner >= 0)
                     {
-                        std::cerr
-                            << "info: skipping \""
-                            << f
-                            << "\" as it does not match old group.\n";
+                        o = new_owner;
                     }
-                    continue;
                 }
-                ++count;
-                if(new_owner <= 0
-                && new_group <= 0)
+
+                if(st.st_gid == old_group
+                && st.st_gid != new_group)
                 {
-                    // only counting
+                    ++gcount;
+                    if(new_group >= 0)
+                    {
+                        g = new_group;
+                    }
+                }
+
+                if(o < 0
+                && g < 0)
+                {
+                    // no changes allowed or required, ignore
                     //
+                    // this would show all the files that fail, that's too much
+                    //if(verbose
+                    //&& oc != ocount
+                    //&& gc != gcount)
+                    //{
+                    //    std::cerr
+                    //        << "info: skipping \""
+                    //        << f
+                    //        << "\" as it either does not match old owner and/or group or it already matches the new owner and/or group.\n";
+                    //}
                     continue;
                 }
+
                 if(verbose)
                 {
                     std::cerr
                         << "info: fixing \""
                         << f
                         << "\" "
-                        << (new_owner > 0 ? "owner" : "")
-                        << (new_owner > 0 && new_group > 0 ? " and " : "")
-                        << (new_owner > 0 ? "group" : "")
+                        << (new_owner >= 0 ? "owner" : "")
+                        << (new_owner >= 0 && new_group >= 0 ? " and " : "")
+                        << (new_owner >= 0 ? "group" : "")
                         << ".\n";
                 }
-                int const o(new_owner <= 0 ? st.st_uid : new_owner);
-                int const g(new_group <= 0 ? st.st_gid : new_group);
+                if(o < 0)
+                {
+                    o = st.st_uid;
+                }
+                if(g < 0)
+                {
+                    g = st.st_gid;
+                }
                 r = lchown(f.c_str(), o, g);
                 if(r != 0)
                 {
@@ -1328,6 +1404,17 @@ int main(int argc, char * argv[])
                         << "\n";
                     continue;
                 }
+            }
+            if(verbose
+            || (new_owner < 0 && new_group < 0))
+            {
+                std::cerr << "info: number of files "
+                    << (new_owner < 0 && new_group < 0 ? "to convert" : "converted")
+                    << ": owner="
+                    << ocount
+                    << " group="
+                    << gcount
+                    << "\n";
             }
         }
         else
