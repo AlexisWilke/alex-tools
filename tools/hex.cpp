@@ -101,6 +101,10 @@ void to_utf8(char *buf, unsigned long v)
 long from_utf8(char const *buf)
 {
     unsigned char *s = (unsigned char *) buf;
+    if(s[0] < 0x80)
+    {
+        return s[0];
+    }
     if((s[0] >= 0xC2 && s[0] <= 0xDF)
     && (s[1] >= 0x80 && s[1] <= 0xBF))
     {

@@ -1429,15 +1429,15 @@ int main(int argc, char * argv[])
         // handle error
         std::cerr << "error: reading files failed with: \""
             << glob.get_last_error_message()
-            << "\".";
+            << "\".\n";
         std::cerr << "error: path that generated the error: \""
             << glob.get_last_error_path()
-            << "\".";
+            << "\".\n";
         std::cerr << "error: system error: \""
             << glob.get_last_error_errno()
             << ": "
             << strerror(glob.get_last_error_errno())
-            << "\".";
+            << "\".\n";
     }
 
     return 0;

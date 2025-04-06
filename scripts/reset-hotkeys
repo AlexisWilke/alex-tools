@@ -1,0 +1,73 @@
+#!/bin/sh
+# Reset hotkeys to what we MUST HAVE.
+#
+# For slider arrows, edit /usr/share/themes/Adwaita/gtk-2.0/gtkrc
+# and search for stepper to find:
+#   GtkScrollbar::stepper-size = 13          (instead of 0)
+#   GtkScrollbar::has-backward-stepper = 1   (instead of 0)
+#   GtkScrollbar::has-forward-stepper = 1    (instead of 0)
+#
+# See Also:
+#   http://linux.m2osw.com/unity
+#   http://linux.m2osw.com/when-i-lose-gnome-settings
+#
+gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-1 "['<Super>F1']"
+gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-2 "['<Super>F2']"
+gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-3 "['<Super>F3']"
+gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-4 "['<Super>F4']"
+gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-5 "['<Super>F5']"
+gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-6 "['<Super>F6']"
+gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-7 "['<Super>F7']"
+gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-8 "['<Super>F8']"
+gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-9 "['<Super>F9']"
+gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-10 "['<Super>F10']"
+gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-11 "['<Super>F11']"
+gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-12 "['<Super>F12']"
+
+gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-1 "['<Super><Shift>F1']"
+gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-2 "['<Super><Shift>F2']"
+gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-3 "['<Super><Shift>F3']"
+gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-4 "['<Super><Shift>F4']"
+gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-5 "['<Super><Shift>F5']"
+gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-6 "['<Super><Shift>F6']"
+gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-7 "['<Super><Shift>F7']"
+gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-8 "['<Super><Shift>F8']"
+gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-9 "['<Super><Shift>F9']"
+gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-10 "['<Super><Shift>F10']"
+gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-11 "['<Super><Shift>F11']"
+gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-12 "['<Super><Shift>F12']"
+
+gsettings set org.gnome.desktop.wm.preferences auto-raise "false"
+gsettings set org.gnome.desktop.wm.preferences focus-mode "sloppy"
+gsettings set org.gnome.desktop.wm.preferences raise-on-click "false"
+
+# "['disable']" seems to work, but looking at the current values, it is set to "@as []"
+gsettings set org.gnome.desktop.wm.keybindings close "['disabled']"
+gsettings set org.gnome.desktop.wm.keybindings begin-move "['disabled']"
+gsettings set org.gnome.desktop.wm.keybindings begin-resize "['disabled']"
+gsettings set org.gnome.desktop.wm.keybindings cycle-group "['disabled']"
+gsettings set org.gnome.desktop.wm.keybindings lower "['<Alt>F6']"
+gsettings set org.gnome.desktop.wm.keybindings raise "['<Alt>F7']"
+
+gsettings set org.gnome.settings-daemon.plugins.power button-suspend "nothing"
+gsettings set org.gnome.settings-daemon.plugins.power button-sleep "nothing"
+gsettings set org.gnome.settings-daemon.plugins.power button-hibernate "nothing"
+gsettings set org.gnome.settings-daemon.plugins.power button-power "nothing"
+
+# Setting up bindings for additional keys
+# This one is for the screensaver
+# (this is editable in the Ubuntu preferences)
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ name "Start Screensaver"
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ binding "<Super>l"
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ command "sh -c 'sleep 1 && xset dpms force off'"
+gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']"
+
+# Use custom1, custom2, etc.
+#gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/ name "Test"
+#gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/ binding "<Super>f"
+#gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/ command "sh -c 'echo test'"
+#gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/']"
+
+# Not too sure why I use 2x2 right now, but I had problems with 4x1
+#gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ hsize 2
+#gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ vsize 2
