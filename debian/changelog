@@ -1,3 +1,10 @@
+alex-tools (1.13) bionic; urgency=high
+
+  * Fixed post install cp option to avoid warning.
+  * Fixed my vimrc here to more closely match my current version.
+
+ -- Alexis Wilke <alexis@m2osw.com>  Fri, 18 Apr 2025 21:45:21 -0700
+
 alex-tools (1.12) bionic; urgency=high
 
   * Added script to restart the system-monitor in the status bar.

@@ -10,13 +10,13 @@ set makeprg=amake
 set foldcolumn=0
 set formatoptions=cro
 set comments=s1:/*,mb:*,ex:*/,b://,b://!
-set encoding=latin1
+set encoding=utf-8
 set mousemodel=extend
 set backspace=indent,eol,start
 set guioptions=ar
-set matchpairs+=<:>
 set spell
 set spelllang=en_us
+set matchpairs+=<:>
 packadd! matchit
 
 " I don't usually want that option, but to remember about it, I leave it here
@@ -32,10 +32,13 @@ map Y y$
 
 " In most of my projects, I have a script to run `make -C <some-place> [<target>]`
 map <F1> :!./mk
-map <F2> :!./mk -i
+map <F2> :!./mk -t
 
-" Hit <F5> to update a changelog signature
+" Hit <F5> to update/insert a changelog signature
 map <F5> 0C -- Alexis Wilke <alexis@m2osw.com>  <C-R>=strftime("%a, %d %b %Y %H:%M:%S %z")<CR><Esc>
+
+" Hit <F6> to add LCOV_EXCL_LINE at the end of the line
+map <F6> A // LCOV_EXCL_LINE<Esc>
 
 syntax on
 if !exists("my_autocommands_loaded")

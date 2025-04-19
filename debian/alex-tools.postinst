@@ -23,16 +23,16 @@ then
         mkdir -p "${u}/.config"
 
         l="${u}/.lessfilter"
-        cp --no-clobber /etc/skel/.lessfilter "${l}"
+        cp --update=none /etc/skel/.lessfilter "${l}"
         chmod 700 "${l}"
         chown "${n}" "${l}"
 
-        cp --no-clobber --recursive /etc/skel/.config/alex-tools "${u}/.config/."
+        cp --update=none --recursive /etc/skel/.config/alex-tools "${u}/.config/."
         chmod 700 "${u}/.config/alex-tools/"*".sh"
         chown "${n}" "${u}/.config/alex-tools/"*".sh"
 
         v="${u}/.vimrc"
-        cp --no-clobber /etc/skel/.vimrc "${v}"
+        cp --update=none /etc/skel/.vimrc "${v}"
         chmod 600 "${v}"
         chown "${n}" "${v}"
     done
