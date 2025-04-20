@@ -16,7 +16,10 @@ then
 	exit 1
 fi
 
-if test -x /usr/bin/vim.basic
+if test -x /usr/bin/vim.gtk3
+then
+	update-alternatives --set editor /usr/bin/vim.gtk3
+elif test -x /usr/bin/vim.basic
 then
 	update-alternatives --set editor /usr/bin/vim.basic
 elif test -x /usr/bin/vim.tiny
