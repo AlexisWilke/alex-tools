@@ -1,3 +1,9 @@
+alex-tools (1.14) bionic; urgency=high
+
+  * Added a better default for the editor.
+
+ -- Alexis Wilke <alexis@m2osw.com>  Sat, 19 Apr 2025 21:14:13 -0700
+
 alex-tools (1.13) bionic; urgency=high
 
   * Fixed post install cp option to avoid warning.
