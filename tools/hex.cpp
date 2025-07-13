@@ -18,6 +18,7 @@
 //
 #include    <cstdint>
 #include    <iostream>
+#include    <list>
 
 
 // C
@@ -98,16 +99,22 @@ void to_utf8(char *buf, unsigned long v)
     }
 }
 
-long from_utf8(char const *buf)
+long from_utf8(char const * & buf)
 {
+    if(buf[0] == '\0')
+    {
+        return -1;
+    }
     unsigned char *s = (unsigned char *) buf;
     if(s[0] < 0x80)
     {
+        buf += 1;
         return s[0];
     }
     if((s[0] >= 0xC2 && s[0] <= 0xDF)
     && (s[1] >= 0x80 && s[1] <= 0xBF))
     {
+        buf += 2;
         return ((s[0] & 0x1F) << 6) | (s[1] & 0x3F);
     }
     if((s[0] == 0xE0 // excluding overlongs
@@ -120,6 +127,7 @@ long from_utf8(char const *buf)
             && s[1] >= 0x80 && s[1] <= 0x9F
             && s[2] >= 0x80 && s[2] <= 0xBF))
     {
+        buf += 3;
         return ((s[0] & 0x0F) << 12) | ((s[1] & 0x3F) << 6) | (s[2] & 0x3F);
     }
     if((s[0] == 0xF0 // planes 1-3
@@ -135,6 +143,7 @@ long from_utf8(char const *buf)
              && s[2] >= 0x80 && s[2] <= 0xBF
              && s[3] >= 0x80 && s[3] <= 0xBF))
     {
+        buf += 4;
         return ((s[0] & 0x07) << 18) | ((s[1] & 0x3F) << 12) | ((s[2] & 0x3F) << 6) | (s[3] & 0x3F);
     }
 
@@ -202,10 +211,10 @@ void usage()
         << g_progname << " program v" <<  g_version / 100 << '.' << g_version % 100 << " -- Written by Alexis WILKE (c) 1995-2023\n"
         << "Usage: " << g_progname << " [--opts] <value>[.<value>] ...\n"
         << "       " << g_progname << " [--opts] \\\"<text (4 ASCII characters max)> ...\n"
-        << "       " << g_progname << " [--opts] \\\'<text (4 UTF-8 bytes max)> ...\n"
+        << "       " << g_progname << " [--opts] \\\'<text (show each character from a UTF-8 string of any length)> ...\n"
         << "\n"
         << "Where --opts is one or more of:\n"
-        << "       -h | --help     print out this help screen (or not parameters).\n"
+        << "       -h | --help     print out this help screen (or no parameters).\n"
         << "            --add      ADD between values when more than one (default).\n"
         << "            --and      AND between values when more than one.\n"
         << "            --mul      PRODUCT between values when more than one.\n"
@@ -242,8 +251,9 @@ int main(int argc, char *argv[])
     long int_result(0);
     long int_cnt(0);
     long int_total(0);
+    std::list<long> extra_chars;
     hex_mode_t mode(MODE_ADD);
-    for(int i(1); i < argc; ++i)
+    for(int i(1); i < argc; extra_chars.empty() ? ++i : 0)
     {
         if(strcmp(argv[i], "--help") == 0
         || strcmp(argv[i], "-h") == 0)
@@ -277,7 +287,12 @@ int main(int argc, char *argv[])
             continue;
         }
 
-        if(*argv[i] == '"')
+        if(!extra_chars.empty())
+        {
+            int_result = extra_chars.front();
+            extra_chars.pop_front();
+        }
+        else if(*argv[i] == '"')
         {
             int_result = 0;
             for(int j(1); j < 5 && argv[i][j] != '\0'; ++j)
@@ -289,7 +304,20 @@ int main(int argc, char *argv[])
         }
         else if(*argv[i] == '\'')
         {
-            int_result = from_utf8(argv[i] + 1);
+            char const * buf(argv[i] + 1);
+            int_result = from_utf8(buf);
+            if(int_result != -1)
+            {
+                while(*buf != '\0')
+                {
+                    long const extra_result(from_utf8(buf));
+                    if(extra_result == -1)
+                    {
+                        break;
+                    }
+                    extra_chars.push_back(extra_result);
+                }
+            }
             v = 1;
         }
         else

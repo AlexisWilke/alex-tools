@@ -1,6 +1,13 @@
+alex-tools (1.15) bionic; urgency=high
+
+  * ...
+
+ -- Alexis Wilke <alexis@m2osw.com>  Sun, 13 Jul 2025 15:13:30 -0700
+
 alex-tools (1.14) bionic; urgency=high
 
   * Added a better default for the editor.
+  * Added support for a while UTF-8 string.
 
  -- Alexis Wilke <alexis@m2osw.com>  Sat, 19 Apr 2025 21:14:13 -0700
 
