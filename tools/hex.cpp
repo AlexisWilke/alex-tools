@@ -1,4 +1,4 @@
-// Copyright (C) 2001-2024 by Alexis Wilke
+// Copyright (C) 2001-2025 by Alexis Wilke
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ namespace
 {
 
 
-long const      g_version = 104;
+long const      g_version = 105;
 char const *    g_progname = nullptr;
 
 
@@ -105,7 +105,7 @@ long from_utf8(char const * & buf)
     {
         return -1;
     }
-    unsigned char *s = (unsigned char *) buf;
+    unsigned char const * s(reinterpret_cast<unsigned char const *>(buf));
     if(s[0] < 0x80)
     {
         buf += 1;
@@ -120,7 +120,7 @@ long from_utf8(char const * & buf)
     if((s[0] == 0xE0 // excluding overlongs
         && (s[1] >= 0xA0 && s[1] <= 0xBF)
         && (s[2] >= 0x80 && s[2] <= 0xBF))
-    || (((0xE1 >= s[0] && s[0] <= 0xEC) || s[0] == 0xEE || s[0] == 0xEF) // straight 3-byte
+    || (((s[0] >= 0xE1 && s[0] <= 0xEC) || s[0] == 0xEE || s[0] == 0xEF) // straight 3-byte
             && s[1] >= 0x80 && s[1] <= 0xBF
             && s[2] >= 0x80 && s[2] <= 0xBF)
     || (s[0] == 0xED // excluding surrogates
@@ -208,7 +208,7 @@ void floating_point(char c, double v)
 void usage()
 {
     std::cout
-        << g_progname << " program v" <<  g_version / 100 << '.' << g_version % 100 << " -- Written by Alexis WILKE (c) 1995-2023\n"
+        << g_progname << " program v" <<  g_version / 100 << '.' << g_version % 100 << " -- Written by Alexis WILKE (c) 1995-2025\n"
         << "Usage: " << g_progname << " [--opts] <value>[.<value>] ...\n"
         << "       " << g_progname << " [--opts] \\\"<text (4 ASCII characters max)> ...\n"
         << "       " << g_progname << " [--opts] \\\'<text (show each character from a UTF-8 string of any length)> ...\n"
@@ -291,6 +291,7 @@ int main(int argc, char *argv[])
         {
             int_result = extra_chars.front();
             extra_chars.pop_front();
+            v = 1;
         }
         else if(*argv[i] == '"')
         {
