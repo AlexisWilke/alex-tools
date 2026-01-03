@@ -1123,6 +1123,8 @@ void usage()
     std::cout << "  --old-group    group identifier of the old group to replace\n";
     std::cout << "  --new-group    group identifier of the new group to replace the old group\n";
     std::cout << "  --root-tree    the directory where the replacement starts\n";
+    std::cout << "\n";
+    std::cout << "The owner and group identifier must be an integer.\n";
 }
 
 
