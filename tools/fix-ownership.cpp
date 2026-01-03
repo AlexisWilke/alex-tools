@@ -1224,10 +1224,19 @@ int main(int argc, char * argv[])
                     return 1;
                 }
             }
+            else
+            {
+                std::cerr << "error: unknown command line option \""
+                    << argv[i]
+                    << "\".\n";
+                return 1;
+            }
         }
         else
         {
-            std::cerr << "error: all parameters must be preceded by an option.\n";
+            std::cerr << "error: all parameters must be preceded by an option; found \""
+                << argv[i]
+                << "\" without a preceding option.\n";
             return 1;
         }
     }
