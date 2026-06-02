@@ -29,6 +29,7 @@ packadd! matchit
 "set guifont=-adobe-courier-medium-r-normal-*-*-120-*-*-m-*-iso8859-1
 
 map Y y$
+vnoremap <F3> "+y
 
 " In most of my projects, I have a script to run `make -C <some-place> [<target>]`
 map <F1> :!./mk
