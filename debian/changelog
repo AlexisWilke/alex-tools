@@ -1,6 +1,6 @@
 alex-tools (1.16) bionic; urgency=high
 
-  * ...
+  * Added the F3 key for vim to do a "+y in visual mode.
 
  -- Alexis Wilke <alexis@m2osw.com>  Sun, 03 Aug 2025 08:47:31 -0700
 
