@@ -1,3 +1,9 @@
+alex-tools (1.17) bionic; urgency=high
+
+  * Made vim use UTF-8 as its default encoding.
+
+ -- Alexis Wilke <alexis@m2osw.com>  Thu, 27 Aug 2026 11:30:41 -0700
+
 alex-tools (1.16) bionic; urgency=high
 
   * Added the F3 key for vim to do a "+y in visual mode.

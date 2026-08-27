@@ -29,11 +29,11 @@ packadd! matchit
 "set guifont=-adobe-courier-medium-r-normal-*-*-120-*-*-m-*-iso8859-1
 
 map Y y$
-vnoremap <F3> "+y
 
 " In most of my projects, I have a script to run `make -C <some-place> [<target>]`
 map <F1> :!./mk
 map <F2> :!./mk -t
+vnoremap <F3> "+y
 
 " Hit <F5> to update/insert a changelog signature
 map <F5> 0C -- Alexis Wilke <alexis@m2osw.com>  <C-R>=strftime("%a, %d %b %Y %H:%M:%S %z")<CR><Esc>
